@@ -14,16 +14,20 @@ import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import type { UserRole } from '@/lib/types';
+import { setAuthCookie } from '@/lib/auth';
 
 export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [role, setRole] = useState<UserRole>('student');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you would handle authentication here.
-    // For this prototype, we'll just redirect to the dashboard.
+    await setAuthCookie(role);
     router.push('/dashboard');
+    router.refresh(); 
   };
 
   return (
@@ -46,6 +50,19 @@ export default function LoginPage() {
                 required
                 defaultValue="admin@esecdca.com"
               />
+            </div>
+             <div className="grid gap-2">
+              <Label htmlFor="role">Role</Label>
+              <Select required value={role} onValueChange={(value) => setRole(value as UserRole)}>
+                  <SelectTrigger>
+                      <SelectValue placeholder="Select your role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                      <SelectItem value="student">Student</SelectItem>
+                      <SelectItem value="advisor">Class Advisor</SelectItem>
+                      <SelectItem value="hod">HOD</SelectItem>
+                  </SelectContent>
+              </Select>
             </div>
             <div className="grid gap-2 relative">
               <div className="flex items-center">

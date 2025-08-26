@@ -12,16 +12,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import Link from 'next/link';
+import { logout } from '@/lib/auth';
+import { useRouter } from 'next/navigation';
 
 type UserNavProps = {
   user: User;
 };
 
 export function UserNav({ user }: UserNavProps) {
+  const router = useRouter();
   const getInitials = (name: string) => {
     return name.split(' ').map((n) => n[0]).join('');
   }
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/login');
+    router.refresh();
+  };
 
   return (
     <DropdownMenu>
@@ -52,8 +60,8 @@ export function UserNav({ user }: UserNavProps) {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/login">Log out</Link>
+        <DropdownMenuItem onClick={handleLogout}>
+          Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

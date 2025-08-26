@@ -19,9 +19,12 @@ import {
   LogOut,
   Mail,
   Settings,
+  ShieldCheck,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { logout } from '@/lib/auth';
+import { useRouter } from 'next/navigation';
 
 type AppSidebarProps = {
   userRole: UserRole;
@@ -40,11 +43,19 @@ const adminNav = [
   { name: 'Timetable', href: '/timetable', icon: Calendar },
   { name: 'Assignments', href: '/assignments', icon: Book },
   { name: 'Leave Requests', href: '/leave', icon: Mail },
+  { name: 'Admin Panel', href: '/admin', icon: ShieldCheck },
 ];
 
 export function AppSidebar({ userRole }: AppSidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const navItems = userRole === 'student' ? studentNav : adminNav;
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/login');
+    router.refresh();
+  };
 
   return (
     <Sidebar>
@@ -54,18 +65,18 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
       <SidebarContent>
         <SidebarMenu>
           {navItems.map((item) => (
-            <SidebarMenuItem key={item.name}>
-              <SidebarMenuButton
-                asChild
-                isActive={pathname === item.href}
-                tooltip={item.name}
-              >
-                <Link href={item.href}>
-                  <item.icon />
-                  <span>{item.name}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+             <SidebarMenuItem key={item.name}>
+               <SidebarMenuButton
+                 asChild
+                 isActive={pathname.startsWith(item.href)}
+                 tooltip={item.name}
+               >
+                 <Link href={item.href}>
+                   <item.icon />
+                   <span>{item.name}</span>
+                 </Link>
+               </SidebarMenuButton>
+             </SidebarMenuItem>
           ))}
         </SidebarMenu>
       </SidebarContent>
@@ -78,11 +89,9 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Logout">
-                <Link href="/login">
-                  <LogOut />
-                  <span>Logout</span>
-                </Link>
+            <SidebarMenuButton onClick={handleLogout} tooltip="Logout">
+                <LogOut />
+                <span>Logout</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

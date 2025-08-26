@@ -88,7 +88,7 @@ function StudentView() {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                    {assignment.status === 'Pending' && <SubmitAssignmentDialog />}
+                    {assignment.status !== 'Submitted' && <SubmitAssignmentDialog />}
                 </TableCell>
               </TableRow>
             ))}
