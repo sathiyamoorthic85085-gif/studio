@@ -44,7 +44,7 @@ export default function LoginPage() {
                 type="email"
                 placeholder="m@example.com"
                 required
-                defaultValue="admin@veriwear.com"
+                defaultValue="admin@esecdca.com"
               />
             </div>
             <div className="grid gap-2 relative">
