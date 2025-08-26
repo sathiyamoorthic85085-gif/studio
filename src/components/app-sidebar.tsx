@@ -55,15 +55,16 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
         <SidebarMenu>
           {navItems.map((item) => (
             <SidebarMenuItem key={item.name}>
-              <Link href={item.href} legacyBehavior passHref>
-                <SidebarMenuButton
-                  isActive={pathname === item.href}
-                  tooltip={item.name}
-                >
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === item.href}
+                tooltip={item.name}
+              >
+                <Link href={item.href}>
                   <item.icon />
                   <span>{item.name}</span>
-                </SidebarMenuButton>
-              </Link>
+                </Link>
+              </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
@@ -77,12 +78,12 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Link href="/login">
-                <SidebarMenuButton tooltip="Logout">
-                <LogOut />
-                <span>Logout</span>
-                </SidebarMenuButton>
-            </Link>
+            <SidebarMenuButton asChild tooltip="Logout">
+                <Link href="/login">
+                  <LogOut />
+                  <span>Logout</span>
+                </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
