@@ -4,6 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter
 } from '@/components/ui/card';
 import {
   Table,
@@ -26,7 +27,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Download, Upload } from 'lucide-react';
+import { Download, PlusCircle, Upload } from 'lucide-react';
 import { getCurrentUser } from '@/lib/auth';
 
 const assignments = [
@@ -46,11 +47,14 @@ export default async function AssignmentsPage() {
 
   return (
     <Card className="bg-card/50 backdrop-blur-lg border-border/30 shadow-lg">
-      <CardHeader>
-        <CardTitle className="font-headline text-2xl">Assignments</CardTitle>
-        <CardDescription>
-          {isAdmin ? 'View and manage student assignment submissions.' : 'View and submit your assignments.'}
-        </CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+            <CardTitle className="font-headline text-2xl">Assignments</CardTitle>
+            <CardDescription>
+            {isAdmin ? 'View submissions and create new assignments.' : 'View and submit your assignments.'}
+            </CardDescription>
+        </div>
+        {isAdmin && <CreateAssignmentDialog />}
       </CardHeader>
       <CardContent>
         {isAdmin ? <AdminView /> : <StudentView />}
@@ -152,3 +156,50 @@ function SubmitAssignmentDialog() {
     </Dialog>
   );
 }
+
+function CreateAssignmentDialog() {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button><PlusCircle className="mr-2 h-4 w-4" /> Create Assignment</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px] bg-card/80 backdrop-blur-lg border-border/30">
+          <DialogHeader>
+            <DialogTitle className='font-headline'>Create New Assignment</DialogTitle>
+            <DialogDescription>
+              Fill in the details for the new assignment.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="title" className="text-right">
+                Title
+              </Label>
+              <Input id="title" placeholder="e.g. Calculus Worksheet" className="col-span-3" />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="course" className="text-right">
+                Course
+              </Label>
+              <Input id="course" placeholder="e.g. MATH-101" className="col-span-3" />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="due-date" className="text-right">
+                Due Date
+              </Label>
+              <Input id="due-date" type="date" className="col-span-3" />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="file" className="text-right">
+                File
+              </Label>
+              <Input id="file" type="file" className="col-span-3" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="submit">Create</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  }

@@ -33,7 +33,6 @@ const attendanceData = [
 ]
 
 const recentViolations = [
-    { id: "V001", student: "Alex Ray", date: "2023-10-26", issue: "No Tie" },
     { id: "V002", student: "Jordan Lee", date: "2023-10-25", issue: "Improper Shoes" },
     { id: "V003", student: "Taylor Kim", date: "2023-10-25", issue: "Not in uniform" },
     { id: "V004", student: "Casey Smith", date: "2023-10-24", issue: "No ID Card" },
@@ -101,7 +100,7 @@ export default function DashboardPage() {
                 </svg>
             </CardHeader>
             <CardContent>
-                <div className="text-2xl font-bold">4</div>
+                <div className="text-2xl font-bold">3</div>
                 <p className="text-xs text-muted-foreground">in last 24 hours</p>
             </CardContent>
         </GlassCard>
@@ -159,7 +158,7 @@ export default function DashboardPage() {
             <CardHeader>
                 <CardTitle className='font-headline'>Recent Dress Code Violations</CardTitle>
                 <CardDescription>
-                    4 violations in the last 7 days.
+                    3 violations in the last 7 days.
                 </CardDescription>
             </CardHeader>
             <CardContent>
