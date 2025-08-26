@@ -17,20 +17,11 @@ import {
     TableRow,
   } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
-import { ArrowUpRight, Users } from 'lucide-react';
+import { ArrowUpRight, Users, ShieldAlert } from 'lucide-react';
 import Link from 'next/link';
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
-
-const attendanceData = [
-  { name: "Jan", total: Math.floor(Math.random() * 100) + 85 },
-  { name: "Feb", total: Math.floor(Math.random() * 100) + 85 },
-  { name: "Mar", total: Math.floor(Math.random() * 100) + 85 },
-  { name: "Apr", total: Math.floor(Math.random() * 100) + 85 },
-  { name: "May", total: Math.floor(Math.random() * 100) + 85 },
-  { name: "Jun", total: Math.floor(Math.random() * 100) + 85 },
-]
+import { useEffect, useState } from 'react';
 
 const recentViolations = [
     { id: "V002", student: "Jordan Lee", date: "2023-10-25", issue: "Improper Shoes" },
@@ -45,6 +36,21 @@ const GlassCard = ({ children, className }: { children: React.ReactNode, classNa
 );
 
 export default function DashboardPage() {
+  const [attendanceData, setAttendanceData] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Moved data generation into useEffect to avoid hydration errors.
+    setAttendanceData([
+      { name: "Jan", total: Math.floor(Math.random() * 15) + 85 },
+      { name: "Feb", total: Math.floor(Math.random() * 15) + 85 },
+      { name: "Mar", total: Math.floor(Math.random() * 15) + 85 },
+      { name: "Apr", total: Math.floor(Math.random() * 15) + 85 },
+      { name: "May", total: Math.floor(Math.random() * 15) + 85 },
+      { name: "Jun", total: Math.floor(Math.random() * 15) + 85 },
+    ]);
+  }, []);
+
+
   return (
     <div className="flex-1 space-y-4">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -85,19 +91,7 @@ export default function DashboardPage() {
         <GlassCard>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Dress Code Violations</CardTitle>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                    >
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                    <path d="m9 12 2 2 4-4" />
-                </svg>
+                <ShieldAlert className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
                 <div className="text-2xl font-bold">3</div>
@@ -107,7 +101,7 @@ export default function DashboardPage() {
         <GlassCard>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Pending Leave Requests</CardTitle>
-                <svg
+                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="none"
@@ -117,7 +111,10 @@ export default function DashboardPage() {
                     strokeWidth="2"
                     className="h-4 w-4 text-muted-foreground"
                     >
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                 </svg>
             </CardHeader>
             <CardContent>
