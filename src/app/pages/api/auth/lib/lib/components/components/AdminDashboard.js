@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import StudentProfile from './StudentProfile';
+import ObjectDetectionAttendance from './Attendance/ObjectDetectionAttendance';
+import ODRequestSystem from './OD/ODRequestSystem';
 import axios from 'axios';
 
 const AdminDashboard = () => {
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [activeTab, setActiveTab] = useState('students');
+  const [attendanceData, setAttendanceData] = useState([]);
 
   useEffect(() => {
     fetchStudents();
@@ -17,6 +20,19 @@ const AdminDashboard = () => {
       setStudents(response.data);
     } catch (error) {
       console.error('Error fetching students:', error);
+    }
+  };
+
+  const fetchAttendanceData = async (date, subject) => {
+    try {
+      const params = new URLSearchParams();
+      if (date) params.append('date', date);
+      if (subject) params.append('subject', subject);
+      
+      const response = await axios.get(`/api/attendance?${params.toString()}`);
+      setAttendanceData(response.data);
+    } catch (error) {
+      console.error('Error fetching attendance:', error);
     }
   };
 
@@ -55,6 +71,16 @@ const AdminDashboard = () => {
             }`}
           >
             OD Requests
+          </button>
+          <button
+            onClick={() => setActiveTab('reports')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'reports'
+                ? 'border-blue-500 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            Reports
           </button>
         </nav>
       </div>
@@ -103,15 +129,20 @@ const AdminDashboard = () => {
 
       {activeTab === 'attendance' && (
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Attendance Management</h2>
-          {/* Attendance component will be implemented here */}
+          <ObjectDetectionAttendance />
         </div>
       )}
 
       {activeTab === 'od' && (
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">OD Request Management</h2>
-          {/* OD management component will be implemented here */}
+          <ODRequestSystem />
+        </div>
+      )}
+
+      {activeTab === 'reports' && (
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold mb-4">Attendance Reports</h2>
+          {/* Reports component will be implemented here */}
         </div>
       )}
     </div>
