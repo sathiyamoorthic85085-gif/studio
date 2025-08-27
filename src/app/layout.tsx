@@ -1,23 +1,21 @@
+"use client"; // Add this directive at the top
+
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation'; // Changed from 'next/router'
 import { getAuthToken, setAuthToken, isAuthenticated } from '@/lib/auth';
 
 const Layout = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if user is authenticated on component mount
-    const token = getAuthToken();
-    if (token && isAuthenticated()) {
-      setAuthToken(token); // Set axios header
-    } else if (!isAuthenticated() && router.pathname !== '/login') {
+    // Your authentication logic here
+    if (!isAuthenticated()) {
       router.push('/login');
     }
   }, [router]);
 
   return (
     <div>
-      {/* Your layout code */}
       {children}
     </div>
   );
