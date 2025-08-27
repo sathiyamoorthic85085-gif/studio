@@ -97,20 +97,22 @@ export async function initDb() {
     )
   `);
   
-  // Create attendance table
-  await db.exec(`
-    CREATE TABLE IF NOT EXISTS attendance (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      student_id INTEGER NOT NULL,
-      date DATE NOT NULL,
-      status TEXT NOT NULL CHECK(status IN ('present', 'absent', 'od')),
-      subject TEXT NOT NULL,
-      verified_by INTEGER,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (student_id) REFERENCES users (id),
-      FOREIGN KEY (verified_by) REFERENCES users (id)
-    )
-  `);
+ // Update the attendance table creation to include:
+await db.exec(`
+  CREATE TABLE IF NOT EXISTS attendance (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id INTEGER NOT NULL,
+    date DATE NOT NULL,
+    status TEXT NOT NULL CHECK(status IN ('present', 'absent', 'od')),
+    subject TEXT NOT NULL,
+    evidence_image TEXT,
+    detection_data TEXT,
+    verified_by INTEGER,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES users (id),
+    FOREIGN KEY (verified_by) REFERENCES users (id)
+  )
+`);
   
   // Create od_requests table
   await db.exec(`
