@@ -90,6 +90,7 @@ export default function ClientLayoutWrapper({
             <button 
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="text-gray-500 focus:outline-none lg:hidden"
+              aria-label="Toggle sidebar"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -101,12 +102,19 @@ export default function ClientLayoutWrapper({
                   <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                 </svg>
               </span>
-              <input className="w-32 pl-10 pr-4 rounded-md form-input sm:w-64" type="text" placeholder="Search" />
+              <input 
+                className="w-32 pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:w-64" 
+                type="text" 
+                placeholder="Search" 
+              />
             </div>
           </div>
           <div className="flex items-center">
             <div className="relative">
-              <button className="flex items-center p-2 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-50 focus:outline-none">
+              <button 
+                className="flex items-center p-2 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-50 focus:outline-none"
+                aria-label="Notifications"
+              >
                 <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                 </svg>
@@ -115,7 +123,11 @@ export default function ClientLayoutWrapper({
             <div className="ml-3 relative">
               <div>
                 <button className="flex items-center max-w-xs text-sm rounded-full focus:outline-none">
-                  <img className="w-8 h-8 rounded-full" src={user?.avatar || `https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=0D8ABC&color=fff`} alt={user?.name} />
+                  <img 
+                    className="w-8 h-8 rounded-full" 
+                    src={user?.avatar || `https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=0D8ABC&color=fff`} 
+                    alt={user?.name || 'User'} 
+                  />
                   <span className="ml-2 text-sm font-medium text-gray-700 truncate">{user?.name || 'User'}</span>
                 </button>
               </div>
